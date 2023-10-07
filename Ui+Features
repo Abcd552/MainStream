@@ -1,1 +1,101 @@
--
+--mainStream Beta
+
+local player = game.Players.LocalPlayer
+
+-- Variables to keep track of Auto Parry and Auto ParryV2 state
+local autoParryEnabled = false
+local autoParryV2Enabled = false
+local redCircleEnabled = false
+
+-- Function to create the UI
+local function createUI()
+    local ui = Instance.new("ScreenGui")
+    ui.Name = "MainUI"
+
+    -- Create the "Main" tab with an "On/Off" switch for Auto Parry
+    local mainTab = Instance.new("Frame", ui)
+    mainTab.Size = UDim2.new(0, 200, 0, 200)
+    mainTab.Position = UDim2.new(0.5, -100, 0.5, -100)
+    mainTab.BackgroundColor3 = Color3.new(0, 0, 0)
+    mainTab.BorderSizePixel = 2
+
+    local autoParryLabel = Instance.new("TextLabel", mainTab)
+    autoParryLabel.Size = UDim2.new(1, 0, 0, 30)
+    autoParryLabel.Text = "Auto Parry:"
+    autoParryLabel.TextSize = 18
+    autoParryLabel.TextColor3 = Color3.new(1, 1, 1)
+
+    local autoParrySwitch = Instance.new("TextButton", mainTab)
+    autoParrySwitch.Size = UDim2.new(0.2, 0, 0, 30)
+    autoParrySwitch.Position = UDim2.new(0.8, 0, 0, 30)
+    autoParrySwitch.BackgroundColor3 = Color3.new(0, 0.5, 0)
+    autoParrySwitch.Text = "Off"
+    autoParrySwitch.TextSize = 18
+    autoParrySwitch.TextColor3 = Color3.new(1, 1, 1)
+
+    local autoParryV2Button = Instance.new("TextButton", mainTab)
+    autoParryV2Button.Size = UDim2.new(1, 0, 0, 30)
+    autoParryV2Button.Position = UDim2.new(0, 0, 0, 80)
+    autoParryV2Button.BackgroundColor3 = Color3.new(0, 0.5, 0)
+    autoParryV2Button.Text = "Auto ParryV2"
+    autoParryV2Button.TextSize = 18
+    autoParryV2Button.TextColor3 = Color3.new(1, 1, 1)
+    autoParryV2Button.Visible = false
+
+    local redCircleLabel = Instance.new("TextLabel", mainTab)
+    redCircleLabel.Size = UDim2.new(1, 0, 0, 30)
+    redCircleLabel.Text = "Red Circle:"
+    redCircleLabel.TextSize = 18
+    redCircleLabel.TextColor3 = Color3.new(1, 1, 1)
+
+    -- Function to toggle Red Circle on/off
+    local function toggleRedCircle()
+        redCircleEnabled = not redCircleEnabled
+        if redCircleEnabled then
+            redCircleLabel.TextColor3 = Color3.new(1, 0, 0) -- Highlight in red
+        else
+            redCircleLabel.TextColor3 = Color3.new(1, 1, 1) -- Reset color
+        end
+    end
+
+    redCircleLabel.MouseButton1Click:Connect(toggleRedCircle)
+
+    -- Function to toggle Auto Parry on/off
+    local function toggleAutoParry()
+        autoParryEnabled = not autoParryEnabled
+        if autoParryEnabled then
+            autoParrySwitch.Text = "On"
+            autoParryV2Button.Visible = true
+        else
+            autoParrySwitch.Text = "Off"
+            autoParryV2Button.Visible = false
+        end
+    end
+
+    autoParrySwitch.MouseButton1Click:Connect(toggleAutoParry)
+
+    -- Function to toggle Auto ParryV2 on/off
+    autoParryV2Button.MouseButton1Click:Connect(function()
+        if autoParryEnabled then
+            autoParryV2Enabled = not autoParryV2Enabled
+            if autoParryV2Enabled then
+                -- Logic to follow the ball and deflect it when it's in a circle
+                if redCircleEnabled then
+                    -- Implement the logic to detect the ball and click the block button here
+                    local isBallInCircle = true -- Replace with actual check
+                    if isBallInCircle then
+                        -- Send a notification when the ball is deflected
+                        print("Deflected!")
+                    end
+                else
+                    warn("Red Circle is not enabled. Enable it first.")
+                end
+            end
+        end
+    end)
+
+    ui.Parent = player.PlayerGui
+end
+
+-- Call the function to create the UI when the player joins the game
+player.CharacterAdded:Connect(createUI)
