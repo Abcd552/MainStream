@@ -1,13 +1,9 @@
---mainStream Beta
-
 local player = game.Players.LocalPlayer
 
--- Variables to keep track of Auto Parry and Auto ParryV2 state
 local autoParryEnabled = false
 local autoParryV2Enabled = false
 local redCircleEnabled = false
 
--- Function to create the UI
 local function createUI()
     local ui = Instance.new("ScreenGui")
     ui.Name = "MainUI"
@@ -48,7 +44,6 @@ local function createUI()
     redCircleLabel.TextSize = 18
     redCircleLabel.TextColor3 = Color3.new(1, 1, 1)
 
-    -- Function to toggle Red Circle on/off
     local function toggleRedCircle()
         redCircleEnabled = not redCircleEnabled
         if redCircleEnabled then
@@ -60,7 +55,6 @@ local function createUI()
 
     redCircleLabel.MouseButton1Click:Connect(toggleRedCircle)
 
-    -- Function to toggle Auto Parry on/off
     local function toggleAutoParry()
         autoParryEnabled = not autoParryEnabled
         if autoParryEnabled then
@@ -74,7 +68,6 @@ local function createUI()
 
     autoParrySwitch.MouseButton1Click:Connect(toggleAutoParry)
 
-    -- Function to toggle Auto ParryV2 on/off
     autoParryV2Button.MouseButton1Click:Connect(function()
         if autoParryEnabled then
             autoParryV2Enabled = not autoParryV2Enabled
